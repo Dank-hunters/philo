@@ -6,7 +6,7 @@
 /*   By: cguiot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 18:15:48 by cguiot            #+#    #+#             */
-/*   Updated: 2021/11/12 18:50:02 by cguiot           ###   ########lyon.fr   */
+/*   Updated: 2021/11/29 19:07:13 by cguiot           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ long long 	get_time(void)
 	return (time.tv_usec / 1000 + time.tv_sec * 1000);
 }
 
-void	new_sleep(long long max)
+/*void	new_sleep(long long max)
 {
 	long long time;
 
 	time = get_time();
 	while (get_time - time < max)
 		usleep(50);
-}
+}*/
 
-void	printt(t_rules *rules, char *s, int id)
+/*void	printt(t_rules *rules, char *s, int id)
 {
 	pthread_mutex_lock(&rules->iswait);
 	if (rules->nb_meal != rules->nb_phi && !rules->is_death)
@@ -43,4 +43,4 @@ void	printt(t_rules *rules, char *s, int id)
 		printf("%d %s\n", id, s);
 	}
 	pthread_mutex_unlock(&rules->iswait);
-}
+}*/
