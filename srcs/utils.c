@@ -6,7 +6,7 @@
 /*   By: cguiot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 18:15:48 by cguiot            #+#    #+#             */
-/*   Updated: 2021/11/29 19:07:13 by cguiot           ###   ########lyon.fr   */
+/*   Updated: 2021/12/01 18:15:27 by cguiot           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ long long 	get_time(void)
 	return (time.tv_usec / 1000 + time.tv_sec * 1000);
 }
 
-/*void	new_sleep(long long max)
+void	new_sleep(long long max)
 {
 	long long time;
 
 	time = get_time();
-	while (get_time - time < max)
+	while (get_time() - time < max)
 		usleep(50);
-}*/
+}
 
 /*void	printt(t_rules *rules, char *s, int id)
 {

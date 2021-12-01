@@ -5,7 +5,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
-
+#include <stdio.h>
 typedef struct s_philo
 {
 	int				name;
@@ -14,13 +14,13 @@ typedef struct s_philo
 	int 			meal;
 	long long int	last_meal;
 	pthread_t		thread;
+	pthread_mutex_t	eating;
 	struct s_rules	*rules;
-
 }			t_philo;
 
 typedef struct s_rules
 {
-	long long int	lm_time;
+	long long int	first_meal_time;
 	int				nb_phi;
 	int				ttk;
 	int				tts;
@@ -31,7 +31,6 @@ typedef struct s_rules
 	int 			rdy;
 	t_philo			*philo;	
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	eating;
 	pthread_mutex_t	iswait;
 }			t_rules;
 
@@ -45,5 +44,6 @@ void	printt(t_rules *rules, char *s, int id);
 void	new_sleep(long long max);
 long long int	get_time(void);
 long long int	ft_atoit(const char *str, int pn);
+void	*action(void	*t);
 
 #endif

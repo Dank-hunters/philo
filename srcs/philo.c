@@ -6,7 +6,7 @@
 /*   By: cguiot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 17:33:38 by cguiot            #+#    #+#             */
-/*   Updated: 2021/11/30 18:25:01 by cguiot           ###   ########lyon.fr   */
+/*   Updated: 2021/12/01 18:15:31 by cguiot           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void printll(long long int i)
 void	phi_say(t_rules *rules, char *str, int id)
 {
 	pthread_mutex_lock(&rules->iswait);
-	//printll(get_time() - rules->first_meal_time);
+	printll(get_time() - rules->first_meal_time);
+	//printf("%lli", (get_time() - rules->first_meal_time));
 	put(' ');
 	ft_putnbr(id);
 	put(' ');
@@ -94,7 +95,7 @@ void	eating(t_philo *philo)
 	pthread_mutex_unlock(&philo->eating);
 	phi_say(philo->rules, "is eating", philo->name);
 	//usleep(philo->rules->tte);
-	usleep(philo->rules->tte);
+	new_sleep(philo->rules->tte);
 	pthread_mutex_unlock(&philo->rules->forks[philo->rf]);
 	pthread_mutex_unlock(&philo->rules->forks[philo->lf]);	
 }
@@ -109,7 +110,8 @@ void	*action(void	*t)
 		;
 	while (philo->rules->is_death == 0)
 	{
-		eating(philo);
+		if (philo->rules->is_death == 0)
+			eating(philo);
 		philo->meal++;
 		if (philo->rules->max_meal == philo->meal && philo->rules->nb_phi > 1)
 		{
@@ -117,12 +119,17 @@ void	*action(void	*t)
 		}
 		if (philo->rules->nb_meal == philo->rules->nb_phi)//on check si ils ont tous manger ou pas , le cas echeant on arrete de toiurner sur cve thread et on ;aisse le check death si charger de leave 
 			return(NULL);	
-	phi_say(philo->rules, "is sleeping", philo->name);
-	usleep(philo->rules->tts);
+	if (philo->rules->is_death == 0)
+	{
+		phi_say(philo->rules, "is sleeping", philo->name);
+		//sleep(philo->rules->tts);
+		new_sleep(philo->rules->tts);
 	// attendre philo->tts
+	}
 	if (philo->rules->nb_meal == philo->rules->nb_phi || philo->rules->is_death == 1)
 			return (NULL);	
-	phi_say(philo->rules, "is thinking", philo->name);
+	if (philo->rules->is_death == 0)
+		phi_say(philo->rules, "is thinking", philo->name);
 	}
 	return (NULL);
 }	
@@ -143,7 +150,8 @@ void	philo_death(t_philo *philo)
 			if (get_time() - philo[i].last_meal > philo->rules->ttk && philo->rules->nb_meal != philo->rules->nb_phi)
 			{
 				philo->rules->is_death = 1;
-				dprintf(1, "%lli | philo :%i  | is dead", (get_time() - philo->rules->first_meal_time), philo->name);//printf l action "is dead"
+				phi_say(philo->rules, "is dead", philo->name);
+			//	dprintf(1, "%lli | philo :%i  | is dead", (get_time() - philo->rules->first_meal_time), philo->name);//printf l action "is dead"
 				pthread_mutex_unlock(&philo->eating);
 				return ;
 			}
