@@ -6,7 +6,7 @@
 /*   By: cguiot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:12:07 by cguiot            #+#    #+#             */
-/*   Updated: 2021/11/30 18:25:04 by cguiot           ###   ########lyon.fr   */
+/*   Updated: 2021/12/02 18:40:38 by cguiot           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	init_phi(t_rules *rules)
 	i = 0;
 	while (i < rules->nb_phi)
 	{
+		rules->philo->fork = 0;
 		rules->philo[i].name = i + 1;
-	//	dprintf(1, "la ?\n");
 		rules->philo[i].rf = i;
 		if (i == 0)
 			rules->philo[i].lf = rules->nb_phi - 1;
@@ -32,7 +32,6 @@ void	init_phi(t_rules *rules)
 		rules->philo[i].last_meal = get_time();
 		pthread_mutex_init(&rules->philo[i].eating, NULL);
 		pthread_create(&rules->philo[i].thread, NULL, action, &rules->philo[i]);
-	//	dprintf(1, "la2 ?\n");
 		i++;
 	}
 }
@@ -45,7 +44,7 @@ void	last_meal(t_rules *rules)
 	while (i < rules->nb_phi)
 	{
 		rules->philo[i].last_meal = rules->first_meal_time;
-		i++;	
+		i++;
 	}
 }
 
@@ -61,11 +60,11 @@ void	init_fork(t_rules *rules)
 	}
 }
 
-
 void	init_struct(t_rules *rules, int ac, char **av)
 {
 	rules->max_meal = 0;
 	rules->nb_meal = 0;
+	rules->first = 0;
 	rules->is_death = 0;
 	rules->nb_phi = ft_atoit(av[1], 1);
 	rules->ttk = ft_atoit(av[2], 1);

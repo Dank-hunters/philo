@@ -6,11 +6,32 @@
 /*   By: cguiot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:42:34 by cguiot            #+#    #+#             */
-/*   Updated: 2021/11/24 15:05:47 by cguiot           ###   ########lyon.fr   */
+/*   Updated: 2021/12/02 18:39:42 by cguiot           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	ft_putnbr(long long int n)
+{
+	if (n == -2147483648)
+	{
+		write(1, "-2147483648", 11);
+		return ;
+	}
+	else
+	{
+		if (n < 0)
+		{
+			n = n * -1;
+			write(1, "-", 1);
+		}
+		if (n >= 10)
+			ft_putnbr(n / 10);
+		put((n % 10 + 48));
+	}
+	return ;
+}
 
 void	test(int nb, int pn)
 {

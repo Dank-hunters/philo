@@ -6,13 +6,13 @@
 /*   By: cguiot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 18:15:48 by cguiot            #+#    #+#             */
-/*   Updated: 2021/12/01 18:15:27 by cguiot           ###   ########lyon.fr   */
+/*   Updated: 2021/12/02 18:40:27 by cguiot           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long long 	get_time(void)
+long long	get_time(void)
 {
 	struct timeval	time;
 
@@ -22,25 +22,43 @@ long long 	get_time(void)
 
 void	new_sleep(long long max)
 {
-	long long time;
+	long long	time;
 
 	time = get_time();
 	while (get_time() - time < max)
 		usleep(50);
 }
 
-/*void	printt(t_rules *rules, char *s, int id)
+void	put(char c)
 {
-	pthread_mutex_lock(&rules->iswait);
-	if (rules->nb_meal != rules->nb_phi && !rules->is_death)
+	write(1, &c, 1);
+}
+
+void	putst(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
 	{
-		printf("%lli ", get_time() - rules->lm_time);
-		printf("%d %s\n", id, s);
+		put(str[i]);
+		i++;
 	}
-	else if (s[3] == 'd')
+}
+
+void	phi_say(t_rules *rules, char *str, int id)
+{
+	if (rules->first == 0)
 	{
-		printf("%lli ", get_time() - rules->lm_time);
-		printf("%d %s\n", id, s);
+		if (rules->is_death == 1)
+			rules->first = 1;
+		pthread_mutex_lock(&rules->iswait);
+		ft_putnbr(get_time() - rules->first_meal_time);
+		put(' ');
+		ft_putnbr(id);
+		put(' ');
+		putst(str);
+		put('\n');
+		pthread_mutex_unlock(&rules->iswait);
 	}
-	pthread_mutex_unlock(&rules->iswait);
-}*/
+}
